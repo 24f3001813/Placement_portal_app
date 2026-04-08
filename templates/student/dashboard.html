@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+    <h2>Available Placement Drives</h2>
+    <p class="text-muted">Apply for the latest opportunities from registered companies.</p>
+</div>
+
+<div class="card p-3 shadow-sm">
+    <table class="table align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Job Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in drives %}
+            <tr>
+                <td><strong>{{ d['job_title'] }}</strong></td>
+                <td>{{ d['job_description'] }}</td>
+                <td>{{ d['deadline'] }}</td>
+                <td>
+                    <a href="{{ url_for('apply_for_drive', drive_id=d['drive_id']) }}" 
+                       class="btn btn-sm btn-outline-primary">Apply Now</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center">No active placement drives found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

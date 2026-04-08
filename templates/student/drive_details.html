@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body p-5">
+        <h1 class="display-6">{{ drive['job_title'] }}</h1>
+        <h5 class="text-primary mb-4">at {{ drive['company_name'] }}</h5>
+        
+        <hr>
+        
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <h5>Job Description</h5>
+                <p class="text-muted" style="white-space: pre-line;">{{ drive['job_description'] }}</p>
+                
+                <h5 class="mt-4">Eligibility</h5>
+                <p>{{ drive['eligibility'] if drive['eligibility'] else 'No specific criteria mentioned.' }}</p>
+            </div>
+            
+            <div class="col-md-4 border-start ps-4">
+                <p><strong>Application Deadline:</strong><br> {{ drive['deadline'] }}</p>
+                <p><strong>Status:</strong><br> <span class="badge bg-success">{{ drive['status'] }}</span></p>
+                
+                <a href="{{ url_for('apply_for_drive', drive_id=drive['drive_id']) }}" 
+                   class="btn btn-lg btn-primary w-100 mt-3">Apply Now</a>
+                <a href="/student/dashboard" class="btn btn-outline-secondary w-100 mt-2">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

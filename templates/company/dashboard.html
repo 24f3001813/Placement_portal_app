@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <h2>Company Dashboard</h2>
+    <a href="/company/create-drive" class="btn btn-primary">+ Create New Drive</a>
+</div>
+
+<div class="card p-3">
+    <h4>Your Active Placement Drives</h4>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in drives %}
+            <tr>
+                <td>{{ d['job_title'] }}</td>
+                <td>{{ d['deadline'] }}</td>
+                <td>
+                    {% if d['status'] == 'Approved' %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif d['status'] == 'Rejected' %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('view_applicants', drive_id=d['drive_id']) }}" 
+                       class="btn btn-sm btn-info text-white">View Applicants</a>
+                    
+                    <a href="{{ url_for('edit_drive', drive_id=d['drive_id']) }}" 
+                       class="btn btn-sm btn-outline-secondary">Edit</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center">No drives created yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

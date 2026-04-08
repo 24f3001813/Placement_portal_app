@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Students</h2>
+</div>
+<form method="GET" class="mb-3 d-flex">
+    <input type="text" name="search" class="form-control me-2" placeholder="Search by name or dept...">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Dept</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+        <tbody>
+        {% for s in students %}
+        <tr>
+        <td>{{ s['full_name'] }}</td>
+        <td>{{ s['department'] }}</td>
+        
+        <td>
+            {% if s['status'] == 'Blacklisted' %}
+                <span class="badge bg-danger">Blacklisted</span>
+            {% else %}
+                <span class="badge bg-success">Active</span>
+            {% endif %}
+        </td>
+        
+        <td>
+            {% if s['status'] != 'Blacklisted' %}
+            <a href="{{ url_for('blacklist_user', user_id=s['user_id'], role='student') }}" 
+               class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Are you sure?')">Blacklist</a>
+            {% else %}
+            <span class="text-muted small">No actions</span>
+            {% endif %}
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

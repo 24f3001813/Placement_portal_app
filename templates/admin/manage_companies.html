@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Companies</h2>
+</div>
+
+<div class="card shadow-sm p-3">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in companies %}
+            <tr>
+                <td>{{ c['company_name'] }}</td>
+                <td>
+                    <span class="badge {% if c['status'] == 'Approved' %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ c['status'] }}
+                    </span>
+                </td>
+                <td>
+                    {% if c['status'] != 'Blacklisted' %}
+                    <a href="{{ url_for('blacklist_user', user_id=c['user_id'], role='company') }}" 
+                       class="btn btn-sm btn-danger">Blacklist</a>
+                    {% else %}
+                    <span class="text-muted">No actions</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row text-center mb-5">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white p-3">
+            <h3>{{ students }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white p-3">
+            <h3>{{ companies }}</h3>
+            <p>Total Companies</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white p-3">
+            <h3>{{ drives }}</h3>
+            <p>Placement Drives</p>
+        </div>
+    </div>
+</div>
+
+<div class="card p-4 shadow-sm">
+    <h4>Pending Company Registrations</h4>
+    <hr>
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Company Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in pending %}
+            <tr>
+                <td>{{ c['company_name'] }}</td>
+                <td><span class="badge bg-warning text-dark">{{ c['status'] }}</span></td>
+                <td>
+                <a href="{{ url_for('approve_company', user_id=c['user_id']) }}" 
+                class="btn btn-sm btn-success">Approve</a>
+                <a href="{{ url_for('blacklist_user', user_id=c['user_id'], role='company') }}" 
+                class="btn btn-sm btn-outline-danger" 
+                onclick="return confirm('Are you sure you want to blacklist this company?')">Reject</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" class="text-center text-muted">No pending approvals.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

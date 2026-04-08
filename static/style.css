@@ -1,0 +1,29 @@
+body {
+    padding-bottom: 50px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.table-hover tbody tr:hover {
+    background-color: ivory;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+footer {
+    background-color: white;
+    margin-top: 40px;
+}
+
+img, embed {
+    max-width: 100%;
+    border-radius: 5px;
+}

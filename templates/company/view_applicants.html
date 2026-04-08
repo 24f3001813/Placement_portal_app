@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Applicants for this Drive</h2>
+    <a href="/company/dashboard" class="btn btn-secondary btn-sm">Back to Dashboard</a>
+</div>
+
+<div class="card shadow-sm p-3">
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Student Name</th>
+                <th>Department</th>
+                <th>Resume</th>
+                <th>Current Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in apps %}
+            <tr>
+                <td>{{ a['full_name'] }}</td>
+                <td>{{ a['department'] }}</td>
+                <td>
+                {% if a['resume_path'] %}
+                <a href="{{ url_for('static', filename='uploads/' + a['resume_path']) }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                View PDF
+                </a>
+                {% else %}
+                <span class="text-muted small">No Resume</span>
+                {% endif %}
+                </td>
+                <td>
+                    {% if a['status'] == 'Shortlisted' %}
+                        <span class="badge bg-warning text-dark">Shortlisted</span>
+                    {% elif a['status'] == 'Selected' %}
+                        <span class="badge bg-success">Selected</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ a['status'] }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if a['status'] == 'Applied' %}
+                    <a href="{{ url_for('shortlist_student', app_id=a['application_id'], drive_id=drive_id) }}" 
+                       class="btn btn-sm btn-warning">Shortlist</a>
+                    {% else %}
+                    <span class="text-muted small">Processed</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">No applications found for this drive.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

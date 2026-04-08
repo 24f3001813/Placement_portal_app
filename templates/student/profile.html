@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5 card p-4 shadow-sm">
+        <h3>My Profile</h3>
+        <hr>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label>Full Name</label>
+                <input type="text" name="full_name" class="form-control" value="{{ student['full_name'] }}" required>
+            </div>
+    
+            <div class="mb-3">
+                <label>Department</label>
+                <input type="text" name="department" class="form-control" value="{{ student['department'] if student['department'] else '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Upload Resume (PDF only)</label>
+                <input type="file" name="resume" class="form-control" accept=".pdf">
+                {% if student['resume_path'] %}
+                <small class="text-success">
+                Current: <a href="{{ url_for('static', filename='uploads/' + student['resume_path']) }}" target="_blank">View Resume</a>
+                </small>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

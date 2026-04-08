@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 card p-4">
+        <h3>Post a New Placement Drive</h3>
+        <hr>
+        <form method="POST">
+            <div class="mb-3">
+                <label>Job Title</label>
+                <input type="text" name="job_title" class="form-control" placeholder="e.g. Software Engineer" required>
+            </div>
+            <div class="mb-3">
+                <label>Job Description</label>
+                <textarea name="description" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+            <label class="form-label">Eligibility Criteria</label>
+            <textarea name="eligibility" class="form-control" rows="3" "></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Application Deadline</label>
+                <input type="date" name="deadline" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Post Drive</button>
+            <a href="/company/dashboard" class="btn btn-link w-100 mt-2">Back to Dashboard</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

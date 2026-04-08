@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Edit Placement Drive</h3>
+<form method="POST" class="card p-4">
+    <div class="mb-3">
+        <label>Job Title</label>
+        <input type="text" name="job_title" class="form-control" value="{{ drive['job_title'] }}">
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea name="description" class="form-control">{{ drive['job_description'] }}</textarea>
+    </div>
+    <div class="mb-3">
+                <label class="form-label">Eligibility Criteria</label>
+                <textarea name="eligibility" class="form-control" rows="2">{{ drive['eligibility'] }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label>Deadline</label>
+        <input type="date" name="deadline" class="form-control" value="{{ drive['deadline'] }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update Drive</button>
+</form>
+{% endblock %}

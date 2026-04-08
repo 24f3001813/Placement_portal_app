@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Master List of Placement Drives</h3>
+
+<div class="card p-3 shadow-sm">
+    <table class="table align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th class="text-center">Actions</th> </tr>
+        </thead>
+        <tbody>
+            {% for d in drives %}
+            <tr>
+                <td>{{ d['company_name'] }}</td>
+                <td>{{ d['job_title'] }}</td>
+                <td>{{ d['deadline'] }}</td>
+                <td>
+                    {% if d['status'] == 'Approved' %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif d['status'] == 'Rejected' %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    {% if d['status'] == 'Pending' %}
+                        <a href="{{ url_for('manage_drive_status', drive_id=d['drive_id'], action='approve') }}" 
+                           class="btn btn-sm btn-outline-success">Approve</a>
+                        
+                        <a href="{{ url_for('manage_drive_status', drive_id=d['drive_id'], action='reject') }}" 
+                           class="btn btn-sm btn-outline-danger">Reject</a>
+                    {% else %}
+                        <span class="text-muted small">No actions needed</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center">No drives found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
