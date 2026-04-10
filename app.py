@@ -5,11 +5,11 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-app.secret_key = "secret_placement_key" # Needed for sessions and flash messages
+app.secret_key = "secret_placement_key" 
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row # This lets us access columns by name like row['username']
+    conn.row_factory = sqlite3.Row 
     return conn
 
 @app.route('/')
@@ -22,12 +22,20 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        conn = get_db_connection()
-        user = conn.execute('SELECT * FROM Users WHERE username = ? AND password = ?', 
-                            (username, password)).fetchone()
-        conn.close()
+        try:
+            conn = get_db_connection()
+            user = conn.execute('SELECT * FROM Users WHERE username = ? AND password = ?', 
+                                (username, password)).fetchone()
+            conn.close()
+        except Exception as e:
+            flash("Database connection error. Please try again later.", "danger")
+            return render_template('login.html')
 
         if user:
+            if user['status'] == 'Blacklisted':
+                flash("Your account has been blacklisted. Access denied.", "danger")
+                return redirect(url_for('login'))
+
             if user['role'] == 'company' and user['status'] == 'Pending':
                 flash("Your account is pending Admin approval.", "warning")
                 return redirect(url_for('login'))
@@ -50,7 +58,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        role = request.form['role'] # 'student' or 'company'
+        role = request.form['role'] 
         username = request.form['username']
         password = request.form['password']
         name = request.form['name']
@@ -67,7 +75,6 @@ def register():
             if role == 'student':
                 cursor.execute('INSERT INTO Students (user_id, full_name, department) VALUES (?, ?, ?)', 
                                (user_id, name, dept))
-                # cursor.execute('INSERT INTO Students (user_id, full_name) VALUES (?, ?)', (user_id, name))
             else:
                 cursor.execute('INSERT INTO Companies (user_id, company_name) VALUES (?, ?)', (user_id, name))
             

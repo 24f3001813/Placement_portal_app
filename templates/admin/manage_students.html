@@ -33,11 +33,10 @@
         <td>
             {% if s['status'] != 'Blacklisted' %}
             <a href="{{ url_for('blacklist_user', user_id=s['user_id'], role='student') }}" 
-               class="btn btn-sm btn-outline-danger"
-               onclick="return confirm('Are you sure?')">Blacklist</a>
-            {% else %}
-            <span class="text-muted small">No actions</span>
-            {% endif %}
+                    class="btn btn-sm btn-outline-danger">Blacklist</a>
+                {% else %}
+                <span class="text-muted small">No actions</span>
+                {% endif %}
         </td>
         </tr>
         {% endfor %}
